@@ -1,4 +1,4 @@
-let pokemonList = [
+const pokemonList = [
     {
         name: 'Pikachu', 
         height: 0.4, 
@@ -25,12 +25,22 @@ let pokemonList = [
     }
 ];
 
-for (let i = 0; i < pokemonList.length; i++ ){
+pokemonList.forEach(function(pokemon){
 
-    if(pokemonList[i].height < 1){
-        document.write('Name: ' + pokemonList[i].name + '.' + ' Height: ' + pokemonList[i].height + '.' + ' Types: ' + pokemonList[i].types + '.' + ' Abilities ' + pokemonList[i].abilities + "<br>");
-    }else if(pokemonList[i].height >= 1){
-        document.write('Name: ' + pokemonList[i].name + '.' + ' Height: ' + pokemonList[i].height + ' - WOW, THAT\’S BIG!' + ' Types: ' + pokemonList[i].types + '.' + ' Abilities ' + pokemonList[i].abilities + "<br>");
+    const name = pokemon.name;
+    const height = pokemon.height;
+    const types = pokemon.types;
+    const abilities = pokemon.abilities;
+
+    const firstPart = `Name: ${name}. Height: ${height}.`;
+    const secondPart = `Types: ${types}. Abilities: ${abilities}. </br>`;
+
+
+
+    if( height < 1){
+        document.write(`${firstPart} ${secondPart}`);
+    }else if( height >= 1){
+        document.write(`${firstPart} - WOW, THAT’S BIG! ${secondPart}`);
     }
 
-}
+})
