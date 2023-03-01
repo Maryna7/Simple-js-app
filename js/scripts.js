@@ -1,63 +1,77 @@
-const pokemonRepository = (function(){
+const pokemonRepository = (function () {
 
-    const pokemonList = [
+    const repository = [
         {
-            name: 'Pikachu', 
-            height: 0.4, 
-            types: ['Field', ' Fairy'], 
+            name: 'Pikachu',
+            height: 0.4,
+            types: ['Field', ' Fairy'],
             abilities: ['Static', ' Lightningrod']
         },
         {
-            name: 'Charmander', 
-            height: 0.6, 
-            types: ['Monster', ' Dragon'], 
+            name: 'Charmander',
+            height: 0.6,
+            types: ['Monster', ' Dragon'],
             abilities: ['Blaze', ' Solar-power']
         },
         {
-            name: 'Squirtle', 
-            height: 0.5, 
-            types: ['Monster', ' Water 1'], 
+            name: 'Squirtle',
+            height: 0.5,
+            types: ['Monster', ' Water 1'],
             abilities: ['Rain-dish', ' Torrent']
         },
         {
-            name: 'Charmeleon', 
-            height: 1.1, 
-            types: ['Monster', ' Dragon'], 
+            name: 'Charmeleon',
+            height: 1.1,
+            types: ['Monster', ' Dragon'],
             abilities: ['Blaze', ' Solar-power']
         }
-     ];
+    ];
 
-    function add(item){
-        pokemonList.push(item);
+    function add(item) {
+        repository.push(item);
     }
 
-    function getAll(){
-        return pokemonList;
+    function getAll() {
+        return repository;
+    }
+
+    function addListItem(pokemon) {
+
+        const pokemonList = document.querySelector('.pokemon-list');
+        const listItem = document.createElement('li');
+        const button = document.createElement('button');
+
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-button');
+
+        listItem.appendChild(button);
+        pokemonList.appendChild(listItem);
+
+        resultOfButtonClick(button, pokemon)
+    }
+
+    function resultOfButtonClick(button, pokemon){
+        button.addEventListener('click', function(event){
+            showDetails(pokemon);
+        });
+    }
+
+
+    function showDetails(pokemon){
+        console.log(pokemon)
     }
 
     return {
         add,
-        getAll
+        getAll,
+        addListItem
     }
 
 })();
 
-pokemonRepository.getAll().forEach(function(pokemon){
 
-    const name = pokemon.name;
-    const height = pokemon.height;
-    const types = pokemon.types;
-    const abilities = pokemon.abilities;
+pokemonRepository.getAll().forEach(function (pokemon) {
 
-    const firstPart = `Name: ${name}. Height: ${height}.`;
-    const secondPart = `Types: ${types}. Abilities: ${abilities}. </br>`;
-
-
-
-    if( height < 1){
-        document.write(`${firstPart} ${secondPart}`);
-    }else if( height >= 1){
-        document.write(`${firstPart} - WOW, THAT’S BIG! ${secondPart}`);
-    }
+    pokemonRepository.addListItem(pokemon);
 
 })
