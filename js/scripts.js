@@ -22,12 +22,16 @@ const pokemonRepository = (function () {
 
     function addListItem(pokemon) {
 
-        const pokemonList = document.querySelector('.pokemon-list');
+        const pokemonList = document.querySelector('.list-group');
         const listItem = document.createElement('li');
         const button = document.createElement('button');
 
+        listItem.classList.add('list-group-item');
+
         button.innerText = pokemon.name;
-        button.classList.add('pokemon-button');
+        button.classList.add('pokemon-button', 'btn', 'btn-info', 'btn-lg', 'btn-block', 'text-capitalize');
+        button.setAttribute('data-toggle', 'modal');
+        button.setAttribute('data-target', '#modal');
 
         listItem.appendChild(button);
         pokemonList.appendChild(listItem);
@@ -68,9 +72,12 @@ const pokemonRepository = (function () {
             return response.json();
         }).then(function (details) {
             // Add the details to the item
-            pokemon.imageUrl = details.sprites.front_default;
+            pokemon.frontImageUrl = details.sprites.front_default;
+            pokemon.backImageUrl = details.sprites.back_default;
             pokemon.height = details.height;
+            pokemon.weight = details.weight;
             pokemon.types = details.types.map(el => el.type.name);
+            pokemon.abilities = details.abilities.map(el => el.ability.name);
         }).catch(function (e) {
             console.error(e);
         });
@@ -78,62 +85,47 @@ const pokemonRepository = (function () {
 
     //Creating a modal window with information about a Pokemon
 
-    const modalContainer = document.querySelector('#modal-container');
+    function showModal({name, frontImageUrl, backImageUrl, height, weight, types, abilities}) {
 
-    function showModal({name, imageUrl, height, types}) {
+        const modalTitle = document.querySelector('.modal-title');
+        const modalBody = document.querySelector('.modal-body');
 
-        modalContainer.innerHTML = '';
+        modalTitle.innerHTML = '';
+        modalBody.innerHTML = '';
 
-        const modal = document.createElement('div');
-        modal.classList.add('modal');
-
-        const closeButton = document.createElement('button');
-        closeButton.classList.add('close-button');
-        closeButton.innerText = 'Close';
-        closeButton.addEventListener('click', hideModalDetais);
-
-        const modalTitle = document.createElement('h1');
         modalTitle.innerText = name;
 
-        const modalImage = document.createElement('img');
-        modalImage.setAttribute('src', imageUrl);
-        modalImage.setAttribute('width', '250');
-        modalImage.setAttribute('height', '250');
-        modalImage.setAttribute('alt', 'Image of a pokemon');
+        const frontModalImage = document.createElement('img');
+        frontModalImage.classList.add('madal-img');
+        frontModalImage.setAttribute('src', frontImageUrl);
+        frontModalImage.setAttribute('width', '50%');
+        frontModalImage.setAttribute('alt', 'Front image of a pokemon');
+
+        const backModalImage = document.createElement('img');
+        backModalImage.classList.add('madal-img');
+        backModalImage.setAttribute('src', backImageUrl);
+        backModalImage.setAttribute('width', '50%');
+        backModalImage.setAttribute('alt', 'Back image of a pokemon');
 
         const modalContentHeight = document.createElement('p');
-        modalContentHeight.innerText = height;
+        modalContentHeight.innerText = `Height: ${height}`;
+
+        const modalContentWeight = document.createElement('p');
+        modalContentWeight.innerText = `Weight: ${weight}`;
 
         const modalContentType = document.createElement('p');
-        modalContentType.innerText = types;
+        modalContentType.innerText = `Types: ${types}`;
 
-        modal.appendChild(closeButton);
-        modal.appendChild(modalTitle);
-        modal.appendChild(modalImage);
-        modal.appendChild(modalContentHeight);
-        modal.appendChild(modalContentType);
-        modalContainer.appendChild(modal);
+        const modalContentAbilities = document.createElement('p');
+        modalContentAbilities.innerText = `Abilities: ${abilities}`;
 
-        modalContainer.classList.add('is-visible');
+        modalBody.appendChild(frontModalImage);
+        modalBody.appendChild(backModalImage);
+        modalBody.appendChild(modalContentHeight);
+        modalBody.appendChild(modalContentWeight);
+        modalBody.appendChild(modalContentType);
+        modalBody.appendChild(modalContentAbilities);
     }
-
-    //Close a modal window
-    function hideModalDetais() {
-        modalContainer.classList.remove('is-visible');
-    }
-
-    modalContainer.addEventListener('click', (e) => {
-        const target = e.target;
-        if (modalContainer === target) {
-            hideModalDetais();
-        }
-    })
-
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-            hideModalDetais();
-        }
-    })
 
     return {
         add,
