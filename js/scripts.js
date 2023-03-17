@@ -1,7 +1,7 @@
 const pokemonRepository = (function () {
 
     const pokemonList = [];
-    const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20';
+    const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?offset=200&limit=200';
 
     //Validate and add Pokemon to the list
     function add(pokemon) {
@@ -22,11 +22,11 @@ const pokemonRepository = (function () {
 
     function addListItem(pokemon) {
 
-        const pokemonList = document.querySelector('.list-group');
+        const pokemonList = document.querySelector('.row');
         const listItem = document.createElement('li');
         const button = document.createElement('button');
 
-        listItem.classList.add('list-group-item');
+        listItem.classList.add('list-group-item', 'col-6', 'col-md-4');
 
         button.innerText = pokemon.name;
         button.classList.add('pokemon-button', 'btn', 'btn-info', 'btn-lg', 'btn-block', 'text-capitalize');
