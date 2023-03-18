@@ -26,7 +26,7 @@ const pokemonRepository = (function () {
         const listItem = document.createElement('li');
         const button = document.createElement('button');
 
-        listItem.classList.add('list-group-item', 'col-6', 'col-md-4');
+        listItem.classList.add('list-group-item', 'col-12', 'col-sm-6', 'col-md-4', 'col-xl-2');
 
         button.innerText = pokemon.name;
         button.classList.add('pokemon-button', 'btn', 'btn-info', 'btn-lg', 'btn-block', 'text-capitalize');
@@ -85,7 +85,7 @@ const pokemonRepository = (function () {
 
     //Creating a modal window with information about a Pokemon
 
-    function showModal({name, frontImageUrl, backImageUrl, height, weight, types, abilities}) {
+    function showModal({ name, frontImageUrl, backImageUrl, height, weight, types, abilities }) {
 
         const modalTitle = document.querySelector('.modal-title');
         const modalBody = document.querySelector('.modal-body');
@@ -127,19 +127,41 @@ const pokemonRepository = (function () {
         modalBody.appendChild(modalContentAbilities);
     }
 
+    ///////Creating a filter to search for pokemon using input
+
+    const searchInput = document.getElementById('searchbar');
+
+    function liveSearch() {
+        const listItem = document.querySelectorAll('.list-group-item')
+        const searchValue = searchInput.value;
+
+        for (let i = 0; i < listItem.length; i++) {
+
+            if (listItem[i].innerText.toLowerCase()
+                .includes(searchValue.toLowerCase())) {
+                listItem[i].classList.remove("is-hidden");
+            } else {
+                listItem[i].classList.add("is-hidden");
+            }
+        }
+    }
+
+    searchInput.addEventListener('keyup', liveSearch);
+
+
     return {
         add,
         getAll,
         addListItem,
         loadList,
-        loadDetails
+        loadDetails,
     }
 
 })();
 
 pokemonRepository.loadList().then(function () {
     pokemonRepository.getAll().forEach(function (pokemon) {
-        pokemonRepository.loadDetails(pokemon).then(()=> {
+        pokemonRepository.loadDetails(pokemon).then(() => {
             pokemonRepository.addListItem(pokemon)
         });
     });
