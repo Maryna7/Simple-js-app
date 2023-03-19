@@ -1,0 +1,27 @@
+{
+  "name": "simple-js-app",
+  "version": "1.0.0",
+  "description": "learn java script project",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maryna7/Simple-js-app.git"
+  },
+  "keywords": [
+    "pokedex",
+    "learn",
+    "javascript"
+  ],
+  "author": "Maryna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maryna7/Simple-js-app/issues"
+  },
+  "homepage": "https://github.com/Maryna7/Simple-js-app#readme",
+  "devDependencies": {
+    "eslint": "^8.36.0"
+  }
+}
