@@ -2,6 +2,9 @@ main{
     margin-top: 80px;
 }
 
-.is-hidden { 
-    display: none; 
+.col-12, 
+.col-sm-6,
+.col-md-4, 
+.col-xl-2{
+    margin-bottom: 20px;
 }

@@ -22,11 +22,15 @@ const pokemonRepository = (function () {
 
     function addListItem(pokemon) {
 
+        if (pokemon.isVisible === false) {
+            return;
+        }
+
         const pokemonList = document.querySelector('.row');
-        const listItem = document.createElement('li');
+        const listItem = document.createElement('div');
         const button = document.createElement('button');
 
-        listItem.classList.add('list-group-item', 'col-12', 'col-sm-6', 'col-md-4', 'col-xl-2');
+        listItem.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-xl-2');
 
         button.innerText = pokemon.name;
         button.classList.add('pokemon-button', 'btn', 'btn-info', 'btn-lg', 'btn-block', 'text-capitalize');
@@ -78,6 +82,7 @@ const pokemonRepository = (function () {
             pokemon.weight = details.weight;
             pokemon.types = details.types.map(el => el.type.name);
             pokemon.abilities = details.abilities.map(el => el.ability.name);
+            pokemon.isVisible = true;
         }).catch(function (e) {
             console.error(e);
         });
@@ -131,22 +136,33 @@ const pokemonRepository = (function () {
 
     const searchInput = document.getElementById('searchbar');
 
-    function liveSearch() {
-        const listItem = document.querySelectorAll('.list-group-item')
-        const searchValue = searchInput.value;
+    function filterPokemons(inputValue) {
 
-        for (let i = 0; i < listItem.length; i++) {
-
-            if (listItem[i].innerText.toLowerCase()
-                .includes(searchValue.toLowerCase())) {
-                listItem[i].classList.remove("is-hidden");
+        pokemonList.forEach(function (pokemon) {
+            if (pokemon.name.includes(inputValue)) {
+                pokemon.isVisible = true;
             } else {
-                listItem[i].classList.add("is-hidden");
+                pokemon.isVisible = false;
             }
-        }
+        })
+
     }
 
-    searchInput.addEventListener('keyup', liveSearch);
+
+    function liveSearch(event) {
+
+        const pokemonListHTML = document.querySelector('.row');
+        pokemonListHTML.innerHTML = '';
+
+        filterPokemons(event.target.value.toLowerCase());
+
+        pokemonList.forEach(function (pokemon) {
+            addListItem(pokemon)
+        })
+
+    }
+
+    searchInput.addEventListener('input', liveSearch);
 
 
     return {
